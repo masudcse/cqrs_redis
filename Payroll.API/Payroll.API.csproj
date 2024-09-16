@@ -17,7 +17,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Payroll.Application\Payroll.Application.csproj" />
     <ProjectReference Include="..\Payroll.Persistence\Payroll.Persistence.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Controllers\Setup\" />
   </ItemGroup>
 
 </Project>
