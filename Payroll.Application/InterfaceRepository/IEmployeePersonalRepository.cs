@@ -10,6 +10,7 @@ namespace Payroll.Application.InterfaceRepository
 {
     public interface IEmployeePersonalRepository
     {
+        Task<List<EmployeePersonal>> GetEmployeePersonalList();
         public Task InsertEmployeePersonal(EmployeePersonal employeePersonal);
     }
 }

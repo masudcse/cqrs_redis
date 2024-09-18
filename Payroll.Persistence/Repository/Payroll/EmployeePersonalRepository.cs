@@ -1,4 +1,5 @@
 ﻿
+using Microsoft.EntityFrameworkCore;
 using Payroll.Application.InterfaceRepository;
 using Payroll.Domain.Entities.Payroll;
 using Payroll.Persistence.Data;
@@ -17,6 +18,12 @@ namespace Payroll.Persistence.Repository.Payroll
         {
             _dbContext = payrollDBContext;
         }
+
+        public async Task<List<EmployeePersonal>> GetEmployeePersonalList()
+        {
+            return await _dbContext.EmployeePersonals.ToListAsync();
+        }
+
         public async Task InsertEmployeePersonal(EmployeePersonal employeePersonal)
         {
             await _dbContext.EmployeePersonals.AddAsync(employeePersonal);

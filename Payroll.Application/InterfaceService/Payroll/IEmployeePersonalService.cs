@@ -9,6 +9,7 @@ namespace Payroll.Application.InterfaceService.Payroll
 {
     public interface IEmployeePersonalService
     {
+        Task<List<EmployeePersonalDTOs>> GetEmployeePersonalList();
         public Task InsertEmployeePersonal(EmployeePersonalDTOs employeePersonalDTOs);
     }
 }

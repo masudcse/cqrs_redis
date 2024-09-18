@@ -17,6 +17,21 @@ namespace Payroll.Application.Services.Payroll
         {
             _employeePersonalRepository = employeePersonalRepository;
         }
+
+        public async Task<List<EmployeePersonalDTOs>> GetEmployeePersonalList()
+        {
+            var employeePersonal = await _employeePersonalRepository.GetEmployeePersonalList();
+            return employeePersonal.Select(x => new EmployeePersonalDTOs
+            {
+                EmployeePersonalId = x.EmployeePersonalId,
+                EmployeeName = x.EmployeeName,
+                Address = x.Address,
+                IsActive = x.IsActive,
+                ContactNo = x.ContactNo,
+                Gender = x.Gender
+            }).ToList();
+        }
+
         public Task InsertEmployeePersonal(EmployeePersonalDTOs employeePersonalDTOs)
         {
             //later will use automapper nuget package

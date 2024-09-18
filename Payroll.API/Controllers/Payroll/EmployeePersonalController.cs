@@ -20,5 +20,11 @@ namespace Payroll.API.Controllers.Payroll
             await _employeePersonalService.InsertEmployeePersonal(employeePersonalDTO);
             return Ok();
         }
+        [HttpGet]
+        public async Task<IActionResult> GetEmployeePersonalList()
+        {
+            var employeePersonalList = await _employeePersonalService.GetEmployeePersonalList();
+            return Ok(employeePersonalList);
+        }
     }
 }
