@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Payroll.Application.DTOs.Payroll;
 using Payroll.Application.InterfaceService.Payroll;
@@ -20,6 +21,7 @@ namespace Payroll.API.Controllers.Payroll
             await _employeePersonalService.InsertEmployeePersonal(employeePersonalDTO);
             return Ok();
         }
+        [Authorize]
         [HttpGet]
         public async Task<IActionResult> GetEmployeePersonalList()
         {

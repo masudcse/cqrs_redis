@@ -1,9 +1,16 @@
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using Payroll.Application.InterfaceRepository;
+using Payroll.Application.InterfaceRepository.Setup;
 using Payroll.Application.InterfaceService.Payroll;
+using Payroll.Application.InterfaceService.Setup;
 using Payroll.Application.Services.Payroll;
+using Payroll.Application.Services.Setup;
 using Payroll.Persistence.Data;
 using Payroll.Persistence.Repository.Payroll;
+using Payroll.Persistence.Repository.Setup;
+using System.Text;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -17,13 +24,32 @@ builder.WebHost.ConfigureKestrel(serverOptions =>
 });
 
 builder.Services.AddControllers();
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
+    {
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = true,
+            ValidateAudience = true,
+            ValidateLifetime = true,
+            ValidateIssuerSigningKey = true,
+            ValidIssuer = builder.Configuration["Jwt:Issuer"],
+            ValidAudience = builder.Configuration["Jwt:Audience"],
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
+        };
+    });
+
+builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+
 var connectionSring = builder.Configuration.GetConnectionString("PayrollConnectionString");
 builder.Services.AddDbContext<PayrollDBContext>(options =>
     options.UseSqlServer(connectionSring)
     );
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddTransient<IEmployeePersonalService, EmployeePersonalService>();
-builder.Services.AddTransient<IEmployeePersonalRepository,EmployeePersonalRepository>();
+builder.Services.AddTransient<IEmployeePersonalRepository, EmployeePersonalRepository>();
+
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -36,10 +62,12 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
+app.UseCors(x => x.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
 app.UseHttpsRedirection();
 
+app.UseAuthentication();
 app.UseAuthorization();
+
 
 app.MapControllers();
 
