@@ -1,5 +1,8 @@
+using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using Payroll.Application.InterfaceRepository;
 using Payroll.Application.InterfaceRepository.Setup;
@@ -7,9 +10,11 @@ using Payroll.Application.InterfaceService.Payroll;
 using Payroll.Application.InterfaceService.Setup;
 using Payroll.Application.Services.Payroll;
 using Payroll.Application.Services.Setup;
+using Payroll.Application.Users.Commands;
 using Payroll.Persistence.Data;
 using Payroll.Persistence.Repository.Payroll;
 using Payroll.Persistence.Repository.Setup;
+using System.Reflection;
 using System.Text;
 var builder = WebApplication.CreateBuilder(args);
 
@@ -38,6 +43,8 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
         };
     });
+builder.Services.AddMediatR(Assembly.GetExecutingAssembly());
+builder.Services.AddMediatR(typeof(RegisterUserCommandHandler).Assembly);
 
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();

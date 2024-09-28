@@ -10,5 +10,6 @@ namespace Payroll.Application.InterfaceRepository.Setup
     public interface IUserRepository
     {
         Task<User> ValidateUserAsync(string username, string password);
+        Task AddUserAsync(User user);
     }
 }

@@ -18,6 +18,7 @@ namespace Payroll.Persistence.Data
         public DbSet<Designation> Designations { get; set; }
         public DbSet<EmployeePersonal> EmployeePersonals { get; set; }
         public DbSet<EmployeeOfficial> EmployeeOfficials { get; set; }
+        public DbSet<User>  Users { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
