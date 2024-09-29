@@ -62,6 +62,7 @@ builder.Services.AddTransient<IEmployeePersonalRepository, EmployeePersonalRepos
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+//register for Redis
 builder.Services.AddStackExchangeRedisCache(options =>
 {
     options.Configuration = builder.Configuration.GetConnectionString("Redis");
