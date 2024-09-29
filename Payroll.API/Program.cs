@@ -62,6 +62,12 @@ builder.Services.AddTransient<IEmployeePersonalRepository, EmployeePersonalRepos
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddStackExchangeRedisCache(options =>
+{
+    options.Configuration = builder.Configuration.GetConnectionString("Redis");
+    options.InstanceName = "UserCache_";
+});
+
 
 var app = builder.Build();
 
