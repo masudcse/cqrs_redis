@@ -17,6 +17,12 @@ namespace Payroll.Persistence.Repository.Setup
         {
             _payrollDBContext = payrollDBContext;
         }
+
+        public async Task<List<User>> GetUserListAysnc()
+        {
+            return await _payrollDBContext.Users.ToListAsync();
+        }
+
         public async Task AddUserAsync(User user)
         {
             await _payrollDBContext.Users.AddAsync(user);

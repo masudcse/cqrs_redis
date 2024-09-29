@@ -11,6 +11,7 @@ using Payroll.Application.InterfaceService.Setup;
 using Payroll.Application.Services.Payroll;
 using Payroll.Application.Services.Setup;
 using Payroll.Application.Users.Commands;
+using Payroll.Application.Users.Query;
 using Payroll.Persistence.Data;
 using Payroll.Persistence.Repository.Payroll;
 using Payroll.Persistence.Repository.Setup;
@@ -45,6 +46,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     });
 builder.Services.AddMediatR(Assembly.GetExecutingAssembly());
 builder.Services.AddMediatR(typeof(RegisterUserCommandHandler).Assembly);
+builder.Services.AddMediatR(typeof(GetUserListQueryHandler).Assembly);
 
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();

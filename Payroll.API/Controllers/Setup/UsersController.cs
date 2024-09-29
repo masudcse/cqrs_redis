@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Payroll.Application.Users.Commands;
+using Payroll.Application.Users.Query;
 
 namespace Payroll.API.Controllers.Setup
 {
@@ -19,6 +20,13 @@ namespace Payroll.API.Controllers.Setup
         {
             var userId = await _mediatR.Send(command);
             return Ok(userId);
+        }
+
+        [HttpGet("users")]
+        public async Task<IActionResult> GetAllUser()
+        {
+            var user =await _mediatR.Send(new GetUserListQuery());
+            return Ok(user);
         }
     }
 }
